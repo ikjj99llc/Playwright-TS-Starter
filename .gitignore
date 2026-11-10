@@ -1,0 +1,14 @@
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
+
+# GitHub Copilot Instructions
+.github/copilot-instructions.md
+
+# AI Prompts
+docs/ai-prompts/*
