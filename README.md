@@ -166,11 +166,6 @@ Once the codebase is cloned to your computer:
      npm ci
      ```
 
-   * **Install Node Type Definitions:**
-     ```bash
-     npm i --save-dev @types/node
-     ```
-
    * **Install Playwright Browser Engine Binaries:**
      ```bash
      npx playwright install --with-deps
