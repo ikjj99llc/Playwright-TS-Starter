@@ -1,40 +1,23 @@
 # GitHub Copilot Instructions for Playwright & TypeScript
 
-## Role & Context
-- You are a Principal QA Automation Engineer specializing in Playwright and TypeScript.
-- Always write clean, maintainable, and robust test scripts using the Page Object Model (POM) design pattern.
+## Project-Wide Guidance
+- Follow the repository's existing architecture, naming, formatting, and tooling. Inspect relevant files before adding or changing code; do not assume a helper, constants file, fixture, or dependency exists.
+- Keep changes focused, preserve existing behavior, and avoid unrelated refactors or speculative abstractions.
+- For browser tests, prefer maintainable Page Objects and reusable components consistent with the patterns already in the repository. Keep workflow interactions encapsulated and tests isolated.
+- Prefer accessible, user-facing locators such as `getByRole`, `getByLabel`, `getByPlaceholder`, or `getByText`. Use test IDs or verified CSS/ID selectors when semantic locators are unavailable or unsuitable; never invent selectors or ARIA roles.
+- Prefer Playwright web-first assertions and waits for observable conditions. Avoid fixed sleeps and hardcoded secrets or personal data. Use configured URLs and existing approved test-data sources.
+- Use clear Arrange/Act/Assert structure and tags or annotations when required by the task or established project conventions; do not add placeholder metadata values as if they were real.
+- Keep detailed Page Object/component creation and test-generation workflows in the dedicated prompts under `docs/ai-prompts/`; do not duplicate those instructions here.
 
-## Code Organization & Naming Conventions
-- Save all Page Object files inside the `pages/` folder. Use **PascalCase** for filenames and class names (e.g., `OpenLoanPage.ts`).
-- Save all test scripts inside `tests/*` using **lowercase kebab-case** (e.g., `loantypes-selection.test.ts`).
-- Global constants must reside in `utils/TestConstants.ts` and remain wrapped inside a frozen, strictly typed block (`export const TestConstants = { ... } as const`).
+## GitHub Copilot Code Review Guidelines
 
-## Page Object Standards
-- All Page Object classes must extend `BasePage` (calculate the relative path dynamically based on file location, e.g., `./BasePage`).
-- Do not overwrite existing Page Object files when updating them; precisely append new constructor locators and action methods.
-- Navigation methods must return the next page instance (e.g., `return new NextPage(this.page);`).
-- When handling dynamic conditional routing, use TypeScript union types for method return signatures (e.g., `Promise<PageA | PageB>`) and ensure navigation changes are properly awaited.
+### Focus
+Review Playwright and TypeScript changes for correctness, maintainability, POM/component design, locator reliability, and test isolation. Report actionable issues with file/line references and explain their impact. Do not flag stylistic preferences as defects.
 
-## Locator Strategy & Selectors
-- Prioritize semantic locators in this exact order: `getByRole`, `getByText`, or `getByPlaceholder`.
-- **Locator Fallback Rule:** If semantic attributes are missing from HTML snippets, fall back sequentially to `data-testid` attributes, unique `id` attributes, or robust CSS selectors. Never guess invalid ARIA roles.
-
-## Test Script Formatting
-- Separate all test blocks clearly using explicit `// Arrange`, `// Act`, and `// Assert` comment lines.
-- Include required metadata blocks in test scripts:
-  - Tags: `@happypath` and `@regression`
-  - Annotations: `jira_id` ('APP-XXXXX') and `author` ('Your Name')
-
-
-# GitHub Copilot Code Review Guidelines
-
-## Role & Focus
-- You are a Senior QA Architect reviewing pull requests for Playwright and TypeScript test automation suites.
-- Focus your feedback on code maintainability, adherence to the Page Object Model (POM), robustness of locators, and test isolation.
-
-## What to Flag / Reject in PRs:
-1. **Hardcoded Waits:** Flag any usage of `page.waitForTimeout()` and demand the use of Web-First assertions or dynamic waits (`waitForLoadState`, `waitForURL`).
-2. **Fragile Locators:** Flag raw CSS/XPath selectors or hardcoded IDs if semantic locators (`getByRole`, `getByText`, `getByPlaceholder`) or `data-testid` attributes should have been used.
-3. **Missing Base Class:** Ensure all new Page Object files extend `BasePage` and properly chain navigation methods (`return new NextPage(this.page);`).
-4. **Test Structure:** Check that test blocks clearly separate setup, execution, and verification using explicit `// Arrange`, `// Act`, and `// Assert` comments.
-5. **Hardcoded Credentials:** Verify that usernames, passwords, or sensitive test data are not hardcoded directly into test scripts and instead reference `TestConstants.ts` or environment variables.
+### Review Criteria
+1. **Unreliable waits:** Flag `page.waitForTimeout()` and other fixed sleeps when used to synchronize with the application. Recommend a specific observable condition or web-first assertion; do not require `waitForLoadState()` or `waitForURL()` when they are not appropriate for the transition.
+2. **Fragile locators:** Flag selectors that are demonstrably brittle, ambiguous, or unsupported by the markup when a more reliable user-facing or configured test-ID locator is available. Raw CSS, XPath, or IDs are not inherently defects if they are the best verified option.
+3. **Page Object architecture:** Check that new or changed Page Objects follow the repository's established base-class and navigation patterns, and that reusable components have clear responsibilities and are composed appropriately. Do not require a BasePage or navigation return type where the existing architecture or behavior does not call for one.
+4. **Test reliability and isolation:** Check that tests assert observable outcomes, avoid execution-order/shared-state dependencies, and use deterministic setup suitable for parallel runs.
+5. **Sensitive or unstable test data:** Flag credentials, secrets, or personal data embedded in test code. Prefer existing fixtures, approved constants, environment variables, or supported data-generation helpers; verify those sources exist rather than assuming them.
+6. **Test structure and metadata:** Check for clear setup/action/assertion flow where useful. Require tags and annotations only when the task or project conventions call for them, and flag fabricated placeholder values used as real metadata.
