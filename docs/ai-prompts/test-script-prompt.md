@@ -1,53 +1,48 @@
+## Make sure to Copy the below template and fill in all the required sections before sending it to the AI assistant. ONLY USE THIS PROMPT IF THE CORRESPONDING PAGE OBJECT / COMPONENT STRUCTURE FILES EXISTS FOR THE TEST SCENARIO.
+
 Using the workspace context of the active #codebase:
 
-## Role
-Act as a Senior QA automation engineer specializing in Playwright and TypeScript. Generate a reliable, maintainable test script for the website and user journey described below. This prompt is for test generation only: use existing Page Objects, components, fixtures, and helpers; do not create or modify them.
+Role: You are a Principal QA Automation Engineer specializing in Playwright and TypeScript.
 
-## Workflow
-1. Inspect the repository before writing. Review the referenced Page Objects and components, relevant fixtures and data helpers, nearby tests, Playwright configuration, TypeScript configuration, and package manifest as needed.
-2. Verify the exact public properties and method names, method parameters, navigation return types, and component ownership from the actual source. Follow the repository's existing imports, test structure, fixtures, and naming conventions.
-3. Map each requested step to the existing Page Object/component API. Do not invent methods, selectors, page classes, routes, or outcomes. If a necessary API or required data source is missing, do not edit the POM or create a substitute; explain the specific gap and ask for the needed input or provide only the runnable portion when appropriate.
-4. Create or update only the requested test file in the established test directory. Preserve unrelated tests and avoid changes to Page Objects, components, constants, fixtures, configuration, application code, or dependencies.
-5. Run the narrowest relevant validation available, such as a targeted test, typecheck, or lint command. Do not run a test against a live external website unless it is explicitly requested or the project is configured for that purpose. Report validation that could not be run and why.
-6. Finish with a concise handoff identifying the test file, its scenario and POM APIs used, assumptions or missing prerequisites, and validation results.
+Goal: You are generating a pure, standalone Playwright test script file inside `tests/`. You must strictly UTILIZE our existing Page Objects and Component classes (such as `BaseNavMenu` or `BaseFooter` components attached to `BasePage`). Do NOT create, generate, or modify any Page Object files (`.ts`) within the application folders.
 
-## Test Authoring Standards
-- Use `test` and `expect` from `@playwright/test`. Organize related cases with descriptive `test.describe()` and `test()` names, following nearby tests.
-- Save test files under the repository's established test directory (normally `tests/`) using lowercase kebab-case filenames, unless the repository establishes a different convention.
-- Keep actions encapsulated in existing Page Object or component methods. Do not use raw locator actions such as `page.click()` or `page.fill()` for workflow interactions already represented by the POM. Use configured fixtures and established setup/navigation helpers. Direct Playwright setup or navigation is acceptable only when it is not an encapsulated workflow action and matches project conventions.
-- Assert observable user outcomes with Playwright's web-first assertions (for example, URL, visibility, text, or state). Prefer exposed Page Object/component locators or existing assertion helpers. Avoid arbitrary sleeps and assertions against implementation details.
-- Structure each test clearly with `// Arrange`, `// Act`, and `// Assert` sections where applicable. Keep data setup in Arrange, user behavior in Act, and outcome verification in Assert; do not add redundant comments to every line.
-- For navigation methods, use their actual return values and types. When a method returns a union, narrow it using the real, observable page/API distinctions and TypeScript-safe checks before calling branch-specific methods. Do not cast away type errors or guess the destination.
-- Keep tests isolated and safe to run in parallel. Do not depend on execution order, shared mutable state, or pre-existing server-side records unless the scenario explicitly requires them.
+Instructions for Agent Mode (Strictly Test File Generation):
+1. Locate and scan the referenced Page Objects and Component files within `pages/` to find the exact existing method names and properties needed for this workflow.
+2. Do NOT write raw browser actions (like `page.click()` or `page.fill()`) in the test script for elements that should be encapsulated. Always call the corresponding action methods from our page objects or child components (e.g., `await dashboardPage.navMenu.clickTaxDocuments()`).
+3. Handle method-chaining and dynamic page routing transitions precisely based on how the existing Page Object methods are typed (including handling methods that return union types like `PageA | PageB`).
+4. For navigation to a new tab or popup, use the existing action method and perform subsequent actions and assertions on the destination, not the originating page. If the method returns the destination Page Object, use that object. If it returns no destination, start waiting for the originating Playwright page's `popup` event before calling the existing action method, then use the resulting `Page` for assertions or to initialize an existing destination Page Object. If the navigation type is unclear, ask for clarification.
+5. If a required Page Object, component, method, locator, or other capability is missing, stop and report what is missing before generating a test. Do not invent APIs, weaken the scenario, or modify application files to work around the gap.
+6. Generate a complete, self-contained test file inside `tests/` only when the scenario can be implemented with the existing capabilities and the required inputs are available.
 
-## Test Data and Configuration
-- Never hardcode secrets, credentials, personal/customer data, or environment-specific URLs in a test. Use existing fixtures, approved constants, environment variables, or project helpers after verifying that they exist and are appropriate.
-- Do not assume that `utils/TestConstants`, a particular profile, `@faker-js/faker`, or any helper/package is present. Check the repository and `package.json` first. Do not add dependencies or modify data files as part of this test-only task.
-- Use a supported dynamic data generator only when it is already available and the scenario needs unique data. Generate each value once and reuse it wherever the journey requires matching values (for example, shipping and billing fields).
-- Prefer stable, deterministic test inputs when uniqueness is unnecessary. If the scenario requires credentials or data that are unavailable, do not fabricate them; report the missing source.
-- Use the configured `baseURL` and project fixtures rather than embedding a URL in the test. Do not read secrets from files or expose them in output.
+Instructions for Automated Test Data Generation:
+- NEVER hardcode Social Security Numbers (SSNs) into tests (e.g., do not use "123-45-6789"). Hardcoding causes database duplication failures.
+- Use only approved test data and generation practices. When approved for the scenario, `TestUtils.generateSSN()` from `utils/testutils` generates a random, structurally valid SSN, but it does not guarantee uniqueness or that the value is unassigned to a real person.
+- If uniqueness, unassigned values, or other data guarantees are required, use an approved mechanism that provides them. If none is known, stop and ask for guidance rather than assuming this helper provides those guarantees.
+- If a test step requires reusing the same SSN (such as "Re-enter SSN" or matching co-applicant scenarios), obtain the value once and reuse that variable across the fields.
+- If a test requires two different individuals, use separate, distinct approved values; do not assume two random calls are guaranteed to produce distinct or globally unique values.
+- Keep actions encapsulated inside Page Object Models (POM). Pass the generated string variable into the POM action methods.
 
-## Tags and Annotations
-- Include tags and annotations only when requested below or required by repository conventions, and use the installed Playwright version's supported syntax.
-- Use the supplied tag values (for example, `@happypath` and `@regression`) and annotation values (for example, `jira_id` and `author`) exactly as provided. Do not invent a Jira ID or author name. If a required value is missing, ask for it or clearly identify the unresolved input rather than silently using example values in executable code.
+Coding Standards:
+- Save the generated script exclusively to `tests/*`.
+- Test files must use lowercase kebab-case (e.g., `tax-documents-download.test.ts`).
+- Separate all test blocks using explicit `// Arrange`, `// Act`, and `// Assert` comment lines.
+- Test assertions must use native Playwright assertions (`expect(page).toHaveURL()`, `expect(locator).toBeVisible()`).
+- Test names and assertions must match and verify the requested user outcome, not just clicks, navigation, or a visible page. For example, a download test must verify the download, not only the destination URL or heading. If the expected outcome or the capability needed to assert it is unclear or missing, stop and ask or report the gap.
+- Keep tests independent of execution order and safe to retry. Consider shared backend records as well as browser isolation; use approved test data and existing supported setup and cleanup where needed. If safe isolation or cleanup cannot be established, stop and report the gap rather than assuming a fresh browser context is sufficient.
 
-## Inputs for This Test
-Fill in values to the right of each field. Remove or mark fields that do not apply. Examples are illustrative; replace them with details for the target application and journey.
+Task:
+Write the complete standalone test file based on this multi-page journey, utilizing existing page object and component structures. Include these explicit metadata blocks, e.g.,:
+- Add tags: '@regression' and '@olb'
+- Add annotation type 'jira_id' with description 'APP-XXXXX'
+- Add annotation type 'author' with description 'Your Name'
 
-- **Application/site name:** [e.g., saucedemo.com]
-- **Target environment or configured base URL:** [e.g., Use the configured `baseURL` in `playwright.config.ts`]
-- **Test filename:** [e.g., saucedemo-checkout.test.ts]
-- **Test name and expected outcome:** [e.g., User can log in, select a product from inventory, add it to the cart, and complete checkout]
-- **Existing Page Objects/components to inspect:** [e.g., LoginPage, BasePage, InventoryPage, CartPage, CheckoutPage, components/NavMenu]
-- **User workflow, in order:**
-  1. **Arrange/setup:** [Open the starting page and obtain credentials from the approved fixture or data source]
-  2. **Act:** [Log in, select a product, add it to the cart, and proceed through checkout using existing POM methods]
-  3. **Assert:** [Verify the expected destination and order confirmation]
-- **Required test data and its approved source:** [Name the existing fixture, constant, environment variable, helper, or specify none]
-- **Required tags:** (For example, `@happypath`, `@regression`; remove if not required.)
-- **Jira ID and author annotation values, if required:** [e.g., jira_id: APP-XXXXX; author: Your Name]
-- **Relevant existing test or fixture to follow, if known:** [Path or none]
-- **Additional requirements or exclusions:** [Details or none]
-
-## Deliverable
-Create a complete, runnable test file that uses only verified project APIs and follows the scenario above. In the handoff, state the file created or updated, list the Page Object/component APIs used, identify any assumptions or missing APIs/data/metadata, and report the validation command and result.
+CRITERIA FOR THE WORKFLOW:
+1. Referenced Page Objects / Components: 
+ - [List the files Copilot should read, e.g., BasePage.ts, DashboardV2Page.ts, components/NavigationMenu.ts, DesertDocumentsRequestPage.ts]
+ 
+2. User Action Steps:
+ - [Arrange]: Load the login page, read standard_user credentials from user-profiles.json.
+ - [Act]: Execute the login workflow using the authentication page objects.
+ - [Arrange/Act]: [Insert Steps, e.g., On the Dashboard, utilize the navMenu component to click the 'Tax Documents' link.]
+ - [Assert]: [Insert Assertion, e.g., Verify URL contains /DesertDocumentsRequest.]
+ - [Assert]: [Insert Assertion, e.g., Verify the page object for DesertDocumentsRequestPage displays the 'Statements & Document' header element.]
