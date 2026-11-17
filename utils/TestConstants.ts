@@ -19,6 +19,38 @@ export const TestConstants = {
         TEST_ALL_THE_THINGS_T_SHIRT_RED: 'remove-test.allthethings()-t-shirt-(red)',
       },
     },
+    CART: {
+      CART_ITEM_NAMES: {
+        SAUCE_LABS_BACKPACK: 'Sauce Labs Backpack',
+        SAUCE_LABS_BIKE_LIGHT: 'Sauce Labs Bike Light',
+        SAUCE_LABS_BOLT_T_SHIRT: 'Sauce Labs Bolt T-Shirt',
+        SAUCE_LABS_FLEECE_JACKET: 'Sauce Labs Fleece Jacket',
+        SAUCE_LABS_ONESIE: 'Sauce Labs Onesie',
+        TEST_ALL_THE_THINGS_T_SHIRT_RED: 'Test.allTheThings() T-Shirt (Red)',
+      },
+      CART_ITEM_DESCRIPTIONS: {
+        SAUCE_LABS_BACKPACK:
+          'carry.allTheThings() with the sleek, streamlined Sly Pack that melds uncompromising style with unequaled laptop and tablet protection.',
+        SAUCE_LABS_BIKE_LIGHT:
+          'A red light isn\'t the desired state in testing but it sure helps when riding your bike at night. Water-resistant with 3 lighting modes, 1 AAA battery included.',
+        SAUCE_LABS_BOLT_T_SHIRT:
+          'Get your testing superhero on with the Sauce Labs bolt T-shirt. From American Apparel, 100% ringspun combed cotton, heather gray with red bolt.',
+        SAUCE_LABS_FLEECE_JACKET:
+          'It\'s not every day that you come across a midweight quarter-zip fleece jacket capable of handling everything from a relaxing day outdoors to a busy day at the office.',
+        SAUCE_LABS_ONESIE:
+          'Rib snap infant onesie for the junior automation engineer in development. Reinforced 3-snap bottom closure, two-needle hemmed sleeved and bottom won\'t unravel.',
+        TEST_ALL_THE_THINGS_T_SHIRT_RED:
+          'This classic Sauce Labs t-shirt is perfect to wear when cozying up to your keyboard to automate a few tests. Super-soft and comfy ringspun combed cotton.',
+      },
+      CART_ITEM_PRICES: {
+        SAUCE_LABS_BACKPACK: '$29.99',
+        SAUCE_LABS_BIKE_LIGHT: '$9.99',
+        SAUCE_LABS_BOLT_T_SHIRT: '$15.99',
+        SAUCE_LABS_FLEECE_JACKET: '$49.99',
+        SAUCE_LABS_ONESIE: '$7.99',
+        TEST_ALL_THE_THINGS_T_SHIRT_RED: '$15.99',
+      },
+    },
     USERS: {
       STANDARD_USER: {
         USERNAME: 'standard_user',
