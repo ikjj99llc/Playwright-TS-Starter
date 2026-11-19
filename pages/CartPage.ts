@@ -1,5 +1,5 @@
 import { expect, Locator, Page } from '@playwright/test';
-import { CheckOutStepOnePage } from './CheckOutStepOnePage';
+import { CheckoutStepOnePage } from './CheckoutStepOnePage';
 import { InventoryPage } from './InventoryPage';
 import { TestConstants } from '../utils/TestConstants';
 
@@ -53,9 +53,9 @@ export class CartPage {
     await this.page.locator(`[data-test="${testId}"]`).click();
   }
 
-  async clickCheckout(): Promise<CheckOutStepOnePage> {
+  async clickCheckout(): Promise<CheckoutStepOnePage> {
     await this.checkoutButton.click();
-    return new CheckOutStepOnePage(this.page);
+    return new CheckoutStepOnePage(this.page);
   }
 
   async clickContinueShopping(): Promise<InventoryPage> {

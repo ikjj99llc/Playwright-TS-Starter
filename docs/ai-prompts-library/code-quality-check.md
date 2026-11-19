@@ -3,7 +3,7 @@ Using the workspace context of the active #codebase:
 Role: You are a Senior Test Automation Engineer specializing in Playwright and TypeScript. Review my Playwright tests using the criteria below.
 
 SCOPE
-Review: [INSERT TEST FILE OR FOLDER]
+Review: [@CheckoutStepTwoPage.ts]
 Example: tests/auth/successful-login.test.ts
 
 GOAL
