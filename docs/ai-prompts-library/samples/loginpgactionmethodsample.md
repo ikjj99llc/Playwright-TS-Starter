@@ -20,12 +20,13 @@ Instructions:
 
 - Existing Page Object file: [LoginPage.ts]
 - Method(s) to add:
-  - Method name: [fillCredentials]
-  - Parameters and types: [e.g., `username: string, password: string`]
-  - Return type (optional): [e.g., `Promise<void>`]
+  - Method name: [fillCredentialsAndLogin]
+  - Parameters and types: [`username: string, password: string`]
+  - Return type (optional): [`Promise<InventoryPage>`]
   - Ordered steps:
     1. [usernameInput] — [fill with `username`]
     2. [passwordInput] — [fill with `password`]
-  - Destination Page Object (optional): []
+    3. [loginButton] — [click]
+  - Destination Page Object (optional): [InventoryPage.ts]
 
 The method should compose those existing locators in that order. Do not add the locators if they are missing; ask for clarification instead.

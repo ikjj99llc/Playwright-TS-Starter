@@ -29,6 +29,13 @@ export class CheckoutStepOnePage {
     await this.postalCodeInput.fill(postalCode);
   }
 
+  async fillShippingInformationAndContinue(firstName: string, lastName: string, postalCode: string): Promise<CheckoutStepTwoPage> {
+    await this.fillFirstName(firstName);
+    await this.fillLastName(lastName);
+    await this.fillPostalCode(postalCode);
+    return await this.clickContinue();
+  }
+
   async clickCancel(): Promise<CartPage> {
     await this.cancelButton.click();
     return new CartPage(this.page);

@@ -21,9 +21,9 @@ export class CheckoutStepTwoPage {
       'Free Pony Express Delivery!',
       { exact: true },
     );
-    this.itemTotalValue = page.getByText('Item total: $9.99', { exact: true });
-    this.taxValue = page.getByText('Tax: $2.40', { exact: true });
-    this.totalValue = page.getByText('Total: $10.79', { exact: true });
+    this.itemTotalValue = page.locator('[data-test="subtotal-label"]');
+    this.taxValue = page.locator('[data-test="tax-label"]');
+    this.totalValue = page.locator('[data-test="total-label"]');
     this.cancelButton = page.getByRole('button', { name: 'Cancel' });
     this.finishButton = page.getByRole('button', { name: 'Finish' });
   }
