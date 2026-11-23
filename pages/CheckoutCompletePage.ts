@@ -1,5 +1,6 @@
 import { Locator, Page } from '@playwright/test';
 import { InventoryPage } from './InventoryPage';
+import { TestConstants } from '../utils/TestConstants';
 
 export class CheckoutCompletePage {
   readonly title: Locator;
@@ -10,22 +11,24 @@ export class CheckoutCompletePage {
   readonly generatePdfOrderButton: Locator;
 
   constructor(readonly page: Page) {
-    this.title = page.getByText('Checkout: Complete!', { exact: true });
+    const { COMPLETE } = TestConstants.SAUCE_DEMO.CHECKOUT;
+
+    this.title = page.getByText(COMPLETE.TITLE, { exact: true });
     this.completeCheckoutImage = page.getByRole('img', {
-      name: 'Pony Express',
+      name: COMPLETE.IMAGE_ALT,
     });
-    this.thankYouMessage = page.getByText('Thank you for your order!', {
+    this.thankYouMessage = page.getByText(COMPLETE.THANK_YOU_MESSAGE, {
       exact: true,
     });
     this.orderDispatchMessage = page.getByText(
-      'Your order has been dispatched, and will arrive just as fast as the pony can get there!',
+      COMPLETE.ORDER_DISPATCH_MESSAGE,
       { exact: true },
     );
     this.backToProductsButton = page.getByRole('button', {
-      name: 'Back Home',
+      name: COMPLETE.BACK_HOME_BUTTON_NAME,
     });
     this.generatePdfOrderButton = page.getByRole('button', {
-      name: 'Generate PDF order',
+      name: COMPLETE.GENERATE_PDF_ORDER_BUTTON_NAME,
     });
   }
 

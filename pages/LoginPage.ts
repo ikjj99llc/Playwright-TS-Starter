@@ -2,6 +2,7 @@ import { Locator, Page } from '@playwright/test';
 import { InventoryPage } from './InventoryPage';
 
 export class LoginPage {
+
   readonly usernameInput: Locator;
   readonly passwordInput: Locator;
   readonly loginButton: Locator;
@@ -40,5 +41,11 @@ export class LoginPage {
   async fillCredentials(username: string, password: string): Promise<void> {
     await this.usernameInput.fill(username);
     await this.passwordInput.fill(password);
+  }
+
+  async fillCredentialsAndLogin(username: string, password: string): Promise<InventoryPage> {
+    await this.usernameInput.fill(username);
+    await this.passwordInput.fill(password);
+    return this.clickLogin();
   }
 }

@@ -24,7 +24,7 @@ Instructions for Automated Test Data Generation:
 
 Coding Standards:
 - Save the generated script exclusively to `tests/*`.
-- Test files must use lowercase kebab-case (e.g., `tax-documents-download.test.ts`).
+- Test files must use lowercase kebab-case (e.g., `e2e-happy-path-checkout.test.ts`).
 - Separate all test blocks using explicit `// Arrange`, `// Act`, and `// Assert` comment lines.
 - Test assertions must use native Playwright assertions (`expect(page).toHaveURL()`, `expect(locator).toBeVisible()`).
 - Test names and assertions must match and verify the requested user outcome, not just clicks, navigation, or a visible page. For example, a download test must verify the download, not only the destination URL or heading. If the expected outcome or the capability needed to assert it is unclear or missing, stop and ask or report the gap.
@@ -32,8 +32,7 @@ Coding Standards:
 
 Task:
 Write the complete standalone test file based on this multi-page journey, utilizing existing page object and component structures. Include these explicit metadata blocks, e.g.,:
-- Add tags: '@regression' and '@olb'
-- Add annotation type 'jira_id' with description 'APP-XXXXX'
+- Add tags: '@smoke' and '@e2e'
 - Add annotation type 'author' with description 'Your Name'
 
 CRITERIA FOR THE WORKFLOW:

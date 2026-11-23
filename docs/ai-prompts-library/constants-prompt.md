@@ -13,7 +13,7 @@ Instructions:
 5. If a duplicate key is encountered within a parent block, update its value rather than creating a duplicate property.
 
 CSV Test Data to Add:
-[SAUCE_DEMO,INVENTORY,PRODUCT_DROPDOWN,az
+SAUCE_DEMO,INVENTORY,PRODUCT_DROPDOWN,az
 SAUCE_DEMO,INVENTORY,PRODUCT_DROPDOWN,za
 SAUCE_DEMO,INVENTORY,PRODUCT_DROPDOWN,lohi
-SAUCE_DEMO,INVENTORY,PRODUCT_DROPDOWN,hilo]
+SAUCE_DEMO,INVENTORY,PRODUCT_DROPDOWN,hilo

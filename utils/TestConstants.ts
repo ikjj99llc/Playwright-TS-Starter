@@ -51,6 +51,18 @@ export const TestConstants = {
         TEST_ALL_THE_THINGS_T_SHIRT_RED: '$15.99',
       },
     },
+    CHECKOUT: {
+      TAX_RATE: 0.08,
+      COMPLETE: {
+        TITLE: 'Checkout: Complete!',
+        IMAGE_ALT: 'Pony Express',
+        THANK_YOU_MESSAGE: 'Thank you for your order!',
+        ORDER_DISPATCH_MESSAGE:
+          'Your order has been dispatched, and will arrive just as fast as the pony can get there!',
+        BACK_HOME_BUTTON_NAME: 'Back Home',
+        GENERATE_PDF_ORDER_BUTTON_NAME: 'Generate PDF order',
+      },
+    },
     USERS: {
       STANDARD_USER: {
         USERNAME: 'standard_user',
@@ -72,5 +84,10 @@ export const TestConstants = {
       USERNAME_REQUIRED: 'Epic sadface: Username is required',
       PASSWORD_REQUIRED: 'Epic sadface: Password is required',
     },
-  },
-} as const;
+    SHIPPING_INFORMATION: {
+      FIRST_NAME: 'John',
+      LAST_NAME: 'Doe',
+      POSTAL_CODE: '12345',
+    },
+  }
+}
