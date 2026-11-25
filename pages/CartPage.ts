@@ -2,20 +2,22 @@ import { expect, Locator, Page } from '@playwright/test';
 import { CheckoutStepOnePage } from './CheckoutStepOnePage';
 import { InventoryPage } from './InventoryPage';
 import { TestConstants } from '../utils/TestConstants';
+import { BasePage } from './BasePage';
 
 type CartItemKey =
   keyof typeof TestConstants.SAUCE_DEMO.CART.CART_ITEM_NAMES;
 type RemoveFromCartTestId =
   (typeof TestConstants.SAUCE_DEMO.INVENTORY.REMOVE_FROM_CART_BUTTONS)[CartItemKey];
 
-export class CartPage {
+export class CartPage extends BasePage {
   readonly cartItemNames: Locator;
   readonly cartItemDescriptions: Locator;
   readonly cartItemPrices: Locator;
   readonly checkoutButton: Locator;
   readonly continueShoppingButton: Locator;
 
-  constructor(readonly page: Page) {
+  constructor(page: Page) {
+    super(page);
     this.cartItemNames = page.locator('[data-test="inventory-item-name"]');
     this.cartItemDescriptions = page.locator(
       '[data-test="inventory-item-desc"]',

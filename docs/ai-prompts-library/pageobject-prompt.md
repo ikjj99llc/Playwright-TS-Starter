@@ -15,6 +15,11 @@ ARCHITECTURAL COMPOSITION RULES:
 5. SEMANTIC SELECTORS: Locator priority: Prefer getByRole for interactive elements, using the element’s accessible name (for example, getByRole('button', { name: 'Close window' })). Use other semantic locators such as getByLabel, getByPlaceholder, or getByText when appropriate. Use getByTestId only when a reliable semantic locator is unavailable or insufficient. Use getByTitle only when the title attribute is itself the intended identifier and no suitable semantic locator is available.
 6. NAVIGATION METHODS: When a Target Page is supplied for an action, implement the method in the originating page or component with a `Promise<TargetPage>` return type and import the specified Page Object. For same-tab navigation, perform the action and return `new TargetPage(this.page)`. For a new tab or popup, start waiting for the originating page's `popup` event before clicking, then return `new TargetPage(popup)` using the resulting Playwright `Page`. Store the constructor's `Page` instance in a component when needed for navigation. If the specified Page Object cannot be found or the navigation type is unclear, ask for clarification rather than guessing. Do not invent a destination for actions without a Target Page; keep non-navigation methods unchanged.
 
+Instructions for Agent Mode:
+1. Scan the `/pages/` folder. If the target Page Object file does not exist, generate a complete, production-ready class that extends `BasePage` (calculating the relative import path dynamically based on where the file is saved, e.g., `./BasePage`).
+2. If the Page Object file already exists, do NOT overwrite it. Instead, precisely append only the new constructor locators and action methods.
+3. In the originating pages, ensure the navigation methods return the next page instance (`return new NextPage(this.page);`).
+
 CRITICAL ACTIONS (Select the applicable step):
 - IF EXPANDING EXISTING CODE: Append new locators and methods cleanly without altering or erasing pre-existing properties or setups.
 - IF GENERATING A NEW BLOCK: Output the complete, copy-pasteable TypeScript file block. Do not include conversational filler or code explanations.

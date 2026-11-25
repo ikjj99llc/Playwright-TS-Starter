@@ -1,8 +1,9 @@
 import { Locator, Page } from '@playwright/test';
 import { InventoryPage } from './InventoryPage';
 import { TestConstants } from '../utils/TestConstants';
+import { BasePage } from './BasePage';
 
-export class CheckoutCompletePage {
+export class CheckoutCompletePage extends BasePage {
   readonly title: Locator;
   readonly completeCheckoutImage: Locator;
   readonly thankYouMessage: Locator;
@@ -10,7 +11,8 @@ export class CheckoutCompletePage {
   readonly backToProductsButton: Locator;
   readonly generatePdfOrderButton: Locator;
 
-  constructor(readonly page: Page) {
+  constructor(page: Page) {
+    super(page);
     const { COMPLETE } = TestConstants.SAUCE_DEMO.CHECKOUT;
 
     this.title = page.getByText(COMPLETE.TITLE, { exact: true });

@@ -1,8 +1,9 @@
 import { Locator, Page } from '@playwright/test';
 import { CheckoutCompletePage } from './CheckoutCompletePage';
 import { InventoryPage } from './InventoryPage';
+import { BasePage } from './BasePage';
 
-export class CheckoutStepTwoPage {
+export class CheckoutStepTwoPage extends BasePage {
   readonly title: Locator;
   readonly paymentInformationValue: Locator;
   readonly shippingInformationValue: Locator;
@@ -12,7 +13,8 @@ export class CheckoutStepTwoPage {
   readonly cancelButton: Locator;
   readonly finishButton: Locator;
 
-  constructor(readonly page: Page) {
+  constructor(page: Page) {
+    super(page);
     this.title = page.getByText('Checkout: Overview', { exact: true });
     this.paymentInformationValue = page.getByText('SauceCard #31337', {
       exact: true,
