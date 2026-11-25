@@ -1,15 +1,17 @@
 import { Locator, Page } from '@playwright/test';
 import { CartPage } from './CartPage';
 import { CheckoutStepTwoPage } from './CheckoutStepTwoPage';
+import { BasePage } from './BasePage';
 
-export class CheckoutStepOnePage {
+export class CheckoutStepOnePage extends BasePage {
   readonly firstNameInput: Locator;
   readonly lastNameInput: Locator;
   readonly postalCodeInput: Locator;
   readonly cancelButton: Locator;
   readonly continueButton: Locator;
 
-  constructor(readonly page: Page) {
+  constructor(page: Page) {
+    super(page);
     this.firstNameInput = page.getByLabel('First Name');
     this.lastNameInput = page.getByLabel('Last Name');
     this.postalCodeInput = page.getByLabel('Zip/Postal Code');
