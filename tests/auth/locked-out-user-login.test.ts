@@ -3,7 +3,7 @@ import { LoginPage } from '../../pages/LoginPage';
 import { TestConstants } from '../../utils/TestConstants';
 
 test(
-  'locked out user sees locked out error message',
+  'locked out user sees locked out error message', //standard error message
   {
     tag: ['@smoke', '@auth'],
     annotation: { type: 'author', description: 'Your Name' },
