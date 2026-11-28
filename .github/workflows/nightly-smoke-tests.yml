@@ -1,0 +1,33 @@
+name: Nightly Smoke Tests
+
+on:
+  schedule:
+    # 3:00 a.m. MST on Saturday (10:00 UTC). This runs at 4:00 a.m. during MDT.
+    - cron: '0 10 * * 6'
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+      - name: Run smoke tests
+        run: npx playwright test --grep '@smoke' --grep-invert '@wip|@bug'
+      - name: Upload Playwright HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nightly-playwright-report
+          path: playwright-report/
+          retention-days: 10
